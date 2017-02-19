@@ -41,6 +41,7 @@ PEP8 coding conventions have been followed
 | Python File | Pylint Score|
 | --- | --- |
 | train_model.py | 9.87/10 |
+| initiate_hyphen_bot.py | 9.77/10 |
 
 
 ##Running the program
