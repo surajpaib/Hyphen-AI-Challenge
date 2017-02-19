@@ -1,23 +1,17 @@
 #####################################################################
 #				ML/NLP/NLU Challenge								#
-#					Skylar Labs										#
+#														#
 #####################################################################
 
-Hi folks, this is a small ML/NLP/NLU challenge to see if you've got 
-what we need at Skylar Labs as a potential candidates for a position
-as ML/NLP/NLU Software Engineer.
+This is an implementation of code for the Hyphen AI Challenge dataset.
 
 ##Task
 
-The task is simple, build a Retrieval System to pick the right answer
+The task was to build a Retrieval System to pick the right answer
 to a certain question, from a dataset.
 
-An user ask a question, your model, process the question and pick the
-most suitable answer from a knowledge base dataset, in which the right
-answer is.
-
-The user input can be slightly(or even totally different, that can be
-cover later on) different from the based question
+Users ask a question, the model, processes the question and picks the
+most suitable answer from a knowledge base dataset.
 
 Example:  
      In dataset:  
@@ -27,38 +21,46 @@ Example:
         Q: where are you located  
         A: I don't have any address
 
-##Data
+##Requirements
 
-You will be provided 2 files to work with:
-	
-*  train_dataset.txt, is the dataset for training, it's formatted in a way to be easy to process:  
-		1- first line is a question  
-		2- second line is the answer to the question  
-		
-   you can take it another way:  
-		1- Odd line number is a question  
-		2- Even line number is an answer  
-		
-*  test_dataset.txt is the dataset for testing, it's formatted in a way to be easy to process:  
-		1- first line is a question  
-		2- second line is the right answer to the question  
-   you can take it another way:  
-		1- Odd line number is a question  
-		2- Even line number is a right answer  
-   You can use the test file to benchmarck your system, by comparing the answer ouput by your system and the answer expected  
-   
-   That is useful to benchmarck your system, and tailor it
+The requirements are mentioned in the requirement.txt file. To install all dependencies
 
+'''
+pip install -r requirements.txt
+'''
 
-##Expectation
+##Method Used
+The Cleaned Question text is converted into a bag of words (BOW) representation using CountVectorizer. Keras' Deep Neural Network Model is used to link them to the Answers. The model accomodates for changes in input text provided the context is not lost. 'Adam' optimizer is used with Categorical Crossentropy as the Loss function.
+
+##Code Structure
+Training File : train_model.py
+Eval file: initiate_hyphen_bot.py
+
+PEP8 coding conventions have been followed
+| Python File    	   | Pylint Score  |
+| -----------------------  | ------------- |
+| train_model.py 	   |    9.87/10    |
+| initiate_hyphen_bot.py   |    9.77/10    |
 
 
-What is expected is to get the highest accuracy possible, in the near 
-future, the system will evolve in memory awared system, where the 
-retrieving will be based on previous answers and questions, so give 
-your all, cause you're about to build one of your best and sweetest 
-piece of work.
+##Running the program
 
+####Step 1: Train the model and get model.h5, vectorizer.pkl and answer.pkl files ( These have already been stored in the repository but it is highly recommeded to run the model again )
+'''
+python train_model.py
+'''
 
-Good luck fellas, may the force be with you !
+####Step 2: Run the initiate_hyphen_bot.py file in either the test mode or the conversation mode. 
+#####Test mode:
+Runs through the entire test set and gives predicted answers. 
+'''
+python initiate_hyphen_bot.py --test
+'''
+
+#####Conversation mode:
+You can enter the questions as you like and the bot will predict the answers
+'''
+python initiate_hyphen_bot.py --conv
+'''
+
 
