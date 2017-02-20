@@ -1,3 +1,6 @@
+"""
+Train hyphen bot
+"""
 import re
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.externals import joblib
@@ -50,14 +53,14 @@ class QAModel(object):
     def define_vocab(self):
         """
         Initializes Vocab function
-        :return:
+        :return: None
         """
         self.vocab = [clean_function(self.vocab)]
 
     def get_datasets(self):
         """
         Load datasets into the class object
-        :return:
+        :return: None
         """
         sample_size = len(self.answer)
         output_vector = np.zeros(sample_size)
@@ -86,7 +89,7 @@ class QAModel(object):
     def model_train(self):
         """
         Trains the Deep Net Model
-        :return: 
+        :return: None
         """
         model = Sequential()
         model.add(Dense(512, input_shape=[np.shape(self.train_x)[1]], activation='relu'))
@@ -119,7 +122,7 @@ class QAModel(object):
 
 def run():
     """
-     :return: 
+     :return: None
     """
     model = QAModel()
     model.load_files('training_dataset.txt')

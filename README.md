@@ -60,8 +60,8 @@ python initiate_hyphen_bot.py --test
 
 #####Conversation mode:
 You can enter the questions as you like and the bot will predict the answers
-'''
+```
 python initiate_hyphen_bot.py --conv
-'''
+```
 
 
