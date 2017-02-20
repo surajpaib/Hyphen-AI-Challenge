@@ -6,7 +6,7 @@ import time
 from train_model import QAModel
 from clint.textui import puts, indent, colored
 from clint import arguments
-
+import pandas as pd
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
@@ -51,19 +51,28 @@ def test_mode(model):
     :return: None
     """
 
-    with open('test_dataset.txt') as filep:
+    with open('test_dataset.txt', 'r') as filep:
         test = filep.read()
+    with open('test-data.txt', 'r') as filep:
+        test2 = filep.read()
+    test = test + "\n" + test2.decode("utf-16")
 
     test = test.split("\n")
     test_question = [q for i, q in enumerate(test) if i % 2 == 0]
+    test_answer = [q for i,q in enumerate(test) if i % 2 != 0]
+    test_answer = [t.strip("\r").encode("utf-8") for t in test_answer]
+    print test_answer
     with indent(10):
         puts(colored.red("Here is a test conversation between a User and Nameless Bot"))
     with indent(4):
-        for question in test_question:
-            puts(colored.green("\nUser : " + str(question)))
+        count = 0
+        l = len(test_answer)
+        for question, t_answer in zip(test_question,test_answer):
+            #puts(colored.green("\nUser : " + str(question)))
+            print "..."
             answer = model.pred(str(question))
-            puts(colored.blue("Nameless Bot: " + str(answer)))
-            time.sleep(2)
+            #puts(colored.blue("Nameless Bot: " + str(answer)))
+        print " The test file has been run through, the test accuracy is {0} / {1}".format(count, l)
 
 
 def run():

@@ -7,6 +7,7 @@ from sklearn.externals import joblib
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout
 from keras.utils.np_utils import to_categorical
+import pandas as pd
 import numpy as np
 
 
@@ -35,7 +36,7 @@ class QAModel(object):
         self.vocab = None
         self.model = None
 
-    def load_files(self, training_file):
+    def load_files(self, training_file, training_file2):
         """
 
         :param training_file: Takes in the training file name
@@ -44,10 +45,17 @@ class QAModel(object):
         with open(training_file, 'r') as filep:
             train = filep.read()
 
+        with open(training_file2, 'r') as filep:
+            train2 = filep.read()
+        train = train + "\n" + train2
         self.vocab = train
         train = train.split("\n")
         self.question = [q for i, q in enumerate(train) if i % 2 == 0]
         self.answer = [q for i, q in enumerate(train) if i % 2 != 0]
+        data = pd.DataFrame()
+        data['Question'] = self.question
+        data['Answer'] = self.answer
+        print data
         joblib.dump(self.answer, 'answer.pkl')
 
     def define_vocab(self):
@@ -101,6 +109,7 @@ class QAModel(object):
         model.add(Dense(np.shape(self.train_x)[0], activation='softmax'))
         model.summary()
         model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+        print np.shape(self.train_x), np.shape(self.train_y)
         model.fit(self.train_x, self.train_y, nb_epoch=1500, batch_size=7)
         self.model = model
         model.save('model.h5')
@@ -125,7 +134,7 @@ def run():
      :return: None
     """
     model = QAModel()
-    model.load_files('training_dataset.txt')
+    model.load_files('training_dataset.txt', 'training_dataset_2.txt')
     model.define_vocab()
     model.get_datasets()
     model.model_train()
